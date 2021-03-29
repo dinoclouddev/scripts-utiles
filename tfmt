@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function findDir {
+	path=`realpath $PWD`
+	content=$(ls $path)
+	for dir in $content
+	do
+		name=${dir##*/}
+		if [ -d "$PWD/$name" ]; then cd $dir; findDir .; fi  
+	done
+	terraform fmt
+	cd ..
+}
+
+findDir $1
